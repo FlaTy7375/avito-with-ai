@@ -1,5 +1,5 @@
 export type Ad = {
-    id: string;
+    id: number;
     category: 'auto' | 'real_estate' | 'electronics';
     title: string;
     price: number;
@@ -9,7 +9,7 @@ export type Ad = {
 }
 
 export type AdListItem = {
-  id: string;
+  id: number;
   category: 'auto' | 'real_estate' | 'electronics';
   title: string
   price: number
@@ -48,4 +48,14 @@ export type AdResponse = {
 export type AdsResponse = {
     items: AdListItem[];
     total: number;
+}
+
+export type AdsParams = {
+    q?: string;
+    limit?: number;
+    skip?: number;
+    needsRevision?: boolean;
+    categories?: 'auto' | 'real_estate' | 'electronics';
+    sortColumn?: 'title' | 'createdAt';
+    sortDirection?: 'asc' | 'desc';
 }
