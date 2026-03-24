@@ -4,7 +4,7 @@ import { AdCard } from '../../widgets/ad-card'
 import { FilterSidebar } from '../../features/filter-ads/ui/FilterSidebar'
 import { SearchHeader } from '../../widgets/search-header'
 import { SimpleGrid } from '@mantine/core'
-import { useAppSelector } from '../../shared/lib/hooks'
+import { useAppSelector, pluralize } from '../../shared/lib/hooks'
 import styles from './AdsListPage.module.css'
 import { PaginationAds } from '../../features/pagination-ads'
 
@@ -29,7 +29,7 @@ export const AdsListPage = () => {
   return (
     <div className={styles.adsListPage}>
         <h1 className={styles.adsTitle}>Мои объявления</h1>
-        <p className={styles.adsValue}>{isLoading ? "Загрузка..." : data?.total} объявления</p>
+        <p className={styles.adsValue}>{isLoading ? '...' : `${data?.total} ${pluralize(data?.total ?? 0, 'объявление', 'объявления', 'объявлений')}`}</p>
         <SearchHeader />
         <div className={styles.adsListContainer}>
           <FilterSidebar />
