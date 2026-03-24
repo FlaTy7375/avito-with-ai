@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
+import { AdsListPage } from "../pages/ads-list";
 
 export const router = createBrowserRouter([
     {
@@ -7,7 +8,7 @@ export const router = createBrowserRouter([
     },
     {
         path: '/ads',
-        element: <div>Ads List</div>
+        element: <AdsListPage />
     },
     {
         path: '/ads/:id',

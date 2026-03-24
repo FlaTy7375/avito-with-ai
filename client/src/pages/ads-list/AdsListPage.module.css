@@ -1,0 +1,34 @@
+.adsListPage {
+    padding: 1px 32px;
+    background-color: rgba(247, 245, 248, 1);
+    min-height: 100vh;
+}
+
+.adsTitle {
+    font-weight: 500;
+    margin: 0;
+    margin-top: 24px;
+    font-size: 22px;
+    line-height: 28px;
+    color: rgba(0, 0, 0, 0.85);
+}
+
+.adsValue {
+    font-size: 18px;
+    color: rgba(132, 131, 136, 1);
+    margin: 0;
+    margin-bottom: 28px;
+}
+
+.adsListContainer {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 10px;
+}
+
+.adsWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+}

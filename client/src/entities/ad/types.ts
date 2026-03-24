@@ -9,11 +9,11 @@ export type Ad = {
 }
 
 export type AdListItem = {
-  id: number;
-  category: 'auto' | 'real_estate' | 'electronics';
-  title: string
-  price: number
-  needsRevision: boolean
+    id: number;
+    category: 'auto' | 'real_estate' | 'electronics';
+    title: string
+    price: number
+    needsRevision: boolean
 }
 
 export type AutoItemParams = {
@@ -55,7 +55,7 @@ export type AdsParams = {
     limit?: number;
     skip?: number;
     needsRevision?: boolean;
-    categories?: 'auto' | 'real_estate' | 'electronics';
-    sortColumn?: 'title' | 'createdAt';
+    categories?: string;
+    sortColumn?: 'title' | 'createdAt' | 'price';
     sortDirection?: 'asc' | 'desc';
 }
