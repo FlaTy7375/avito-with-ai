@@ -6,6 +6,8 @@ export type Ad = {
     description?: string;
     params: AutoItemParams | RealEstateItemParams | ElectronicsItemParams;
     needsRevision: boolean;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export type AdListItem = {

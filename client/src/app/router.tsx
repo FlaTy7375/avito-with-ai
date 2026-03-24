@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { AdsListPage } from "../pages/ads-list";
+import { AdViewPage } from "../pages/ad-view-page";
 
 export const router = createBrowserRouter([
     {
@@ -12,7 +13,7 @@ export const router = createBrowserRouter([
     },
     {
         path: '/ads/:id',
-        element: <div>Ads id</div>
+        element: <AdViewPage />
     },
     {
         path: '/ads/:id/edit',
