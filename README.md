@@ -25,7 +25,7 @@
 ```bash
 cd server
 npm install
-npm start
+PORT=8080 npm start
 ```
 
 Сервер запустится на `http://localhost:8080`
@@ -57,8 +57,27 @@ npm run dev
 
 Приложение откроется на `http://localhost:5173`
 
+## API сервера
+
+`GET /items` — список объявлений
+
+| Параметр | Тип | Описание |
+|---|---|---|
+| `q` | string | Поиск по названию |
+| `limit` | number | Количество на странице (по умолчанию 10) |
+| `skip` | number | Смещение для пагинации |
+| `categories` | string | Категории через запятую: `auto`, `real_estate`, `electronics` |
+| `needsRevision` | boolean | Только требующие доработок |
+| `sortColumn` | string | Поле сортировки: `title`, `createdAt`, `price` |
+| `sortDirection` | string | Направление: `asc`, `desc` |
+
+`GET /items/:id` — одно объявление
+
+`PUT /items/:id` — обновление объявления
+
 ## Принятые решения
 
 - Архитектура: Feature-Sliced Design (FSD)
-- Серверные данные управляются через TanStack Query, UI-состояние (фильтры, тема) — через Redux Toolkit
-- LLM-интеграция реализована через локальный Ollama REST API
+- В `server/server.ts` в эндпоинте `GET /items` добавлено поле `id` в `.map()` — без него невозможно построить навигацию на страницу объявления из списка
+- В `server/server.ts` добавлена сортировка по цене (`sortColumn=price`) — в оригинальном API поддерживались только `title` и `createdAt`
+- LLM-интеграция реализована через локальный Ollama REST API (`POST http://localhost:11434/api/generate`)

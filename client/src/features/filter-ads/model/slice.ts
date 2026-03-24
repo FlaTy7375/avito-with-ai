@@ -5,8 +5,9 @@ type FilterState = {
     categories: ('auto' | 'real_estate' | 'electronics')[];
     needsRevision: boolean;
     currentPage: number;
-    sortColumn: 'title' | 'createdAt' | null;
+    sortColumn: 'title' | 'createdAt' | 'price' | null;
     sortDirection: 'asc' | 'desc' | null;
+    layout: 'grid' | 'list';
 }
 
 const initialState: FilterState = {
@@ -14,8 +15,9 @@ const initialState: FilterState = {
     categories: [],
     needsRevision: false,
     currentPage: 1,
-    sortColumn: null,
-    sortDirection: null
+    sortColumn: 'createdAt' as const,
+    sortDirection: 'desc' as const,
+    layout: 'grid'
 }
 
 export const filterSlice = createSlice({
@@ -38,8 +40,11 @@ export const filterSlice = createSlice({
             state.sortColumn = action.payload.sortColumn
             state.sortDirection = action.payload.sortDirection
         },
+        setLayout: (state, action: PayloadAction<'grid' | 'list'>) => {
+            state.layout = action.payload
+        },
         resetFilters: () => initialState
     }
 })
 
-export const { setSearch, setCategories, setNeedsRevision, setCurrentPage, setSort, resetFilters } = filterSlice.actions
+export const { setSearch, setCategories, setNeedsRevision, setCurrentPage, setSort, setLayout, resetFilters } = filterSlice.actions
