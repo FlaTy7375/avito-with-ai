@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { getAd } from '../../entities/ad/api'
@@ -6,6 +7,8 @@ import styles from './AdViewPage.module.css'
 
 export const AdViewPage = () => {
     const { id } = useParams()
+    const [activePhoto, setActivePhoto] = useState(0)
+
     const { data, isLoading, error } = useQuery({
         queryKey: ['ad', id],
         queryFn: () => getAd(Number(id))
@@ -13,6 +16,15 @@ export const AdViewPage = () => {
 
     if (isLoading) return <div>Загрузка...</div>
     if (error || !data) return <div>Ошибка</div>
+
+    const mockPhotos = [
+        'https://placehold.co/480x360/e8e8e8/999?text=Фото+1',
+        'https://placehold.co/480x360/d0d0d0/999?text=Фото+2',
+        'https://placehold.co/480x360/c0c0c0/999?text=Фото+3',
+        'https://placehold.co/480x360/b0b0b0/999?text=Фото+4',
+        'https://placehold.co/480x360/a0a0a0/999?text=Фото+5',
+        'https://placehold.co/480x360/909090/999?text=Фото+6',
+    ]
 
     const missingFields = getMissingFields(data)
     const needsRevision = missingFields.length > 0
@@ -38,7 +50,20 @@ export const AdViewPage = () => {
             </div>
 
             <div className={styles.content}>
-                <div className={styles.image} />
+                <div className={styles.gallery}>
+                    <img className={styles.mainImage} src={mockPhotos[activePhoto]} alt="Фото объявления" />
+                    <div className={styles.thumbsRow}>
+                        {mockPhotos.map((src, i) => (
+                            <img
+                                key={i}
+                                src={src}
+                                alt={`Фото ${i + 1}`}
+                                className={`${styles.thumb} ${i === activePhoto ? styles.thumbActive : ''}`}
+                                onClick={() => setActivePhoto(i)}
+                            />
+                        ))}
+                    </div>
+                </div>
                 <div className={styles.info}>
                     {needsRevision && (
                         <div className={styles.revision}>
@@ -71,7 +96,7 @@ export const AdViewPage = () => {
 
             <div className={styles.description}>
                 <h3 className={styles.descriptionTitle}>Описание</h3>
-                <p className={styles.descriptionText}>{data.description?.trim() || 'Вы еще не добавили описание'}</p>
+                <p className={styles.descriptionText}>{data.description?.trim() || 'Отсутствует'}</p>
             </div>
         </div>
     )

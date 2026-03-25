@@ -136,3 +136,5 @@ export const getAdParams = (ad: Ad): { label: string; value: string }[] => {
         value: formatParamValue(ad.category, key, params[key]),
     }));
 };
+
+

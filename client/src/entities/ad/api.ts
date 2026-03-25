@@ -11,7 +11,7 @@ export const getAds = async (params?: AdsParams): Promise<AdsResponse> => {
     return data;
 }
 
-export const updateAd = async (id: number, body: Omit<Ad, 'id' | 'needsRevision'>): Promise<{ success: boolean }> => {
+export const updateAd = async (id: number, body: { category: Ad['category']; title: string; description?: string; price: number; params: Record<string, unknown> }): Promise<{ success: boolean }> => {
     const { data } = await api.put<{ success: boolean }>(`/items/${id}`, body);
     return data;
 }
