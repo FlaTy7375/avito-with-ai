@@ -12,6 +12,15 @@ import { IconClear, IconSpinner, IconAi } from './ui/icons'
 import { CATEGORY_OPTIONS, NUMERIC_FIELDS, type AiState } from './model/constants'
 import styles from './AdEditPage.module.css'
 
+type AdEditDraft = {
+    title: string
+    price: string
+    category: Ad['category']
+    description: string
+    params: Record<string, string>
+    updatedAt: number
+}
+
 export const AdEditPage = () => {
     const { id } = useParams()
     const navigate = useNavigate()
@@ -20,6 +29,8 @@ export const AdEditPage = () => {
         queryKey: ['ad', id],
         queryFn: () => getAd(Number(id)),
     })
+
+    const draftKey = `ad-edit-draft:${id ?? ''}`
 
     const [title, setTitle] = useState('')
     const [price, setPrice] = useState('')
@@ -35,35 +46,78 @@ export const AdEditPage = () => {
     const [descAiResult, setDescAiResult] = useState<string | null>(null)
 
     const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
-    const [notificationVisible, setNotificationVisible] = useState(false)
+    const [notificationExiting, setNotificationExiting] = useState(false)
 
     useEffect(() => {
         if (!notification) return
-        setNotificationVisible(true)
-        const hideTimer = setTimeout(() => setNotificationVisible(false), 4700)
+        const showId = setTimeout(() => setNotificationExiting(false), 0)
+        const hideTimer = setTimeout(() => setNotificationExiting(true), 4700)
         const removeTimer = setTimeout(() => setNotification(null), 5000)
-        return () => { clearTimeout(hideTimer); clearTimeout(removeTimer) }
+        return () => { clearTimeout(showId); clearTimeout(hideTimer); clearTimeout(removeTimer) }
     }, [notification])
 
     useEffect(() => {
         if (!data) return
-        setTitle(data.title ?? '')
-        setPrice(data.price != null ? String(data.price) : '')
-        setCategory(data.category)
-        setDescription(data.description ?? '')
-        const p = data.params as Record<string, unknown>
-        const filled: Record<string, string> = {}
-        Object.entries(p).forEach(([k, v]) => { filled[k] = v != null ? String(v) : '' })
-        setParams(filled)
-    }, [data])
+        const timeoutId = setTimeout(() => {
+            let draft: AdEditDraft | null = null
+            try {
+                const raw = localStorage.getItem(draftKey)
+                if (raw) draft = JSON.parse(raw) as AdEditDraft
+            } catch {
+                draft = null
+            }
+
+            if (draft) {
+                setTitle(draft.title ?? '')
+                setPrice(draft.price ?? '')
+                setCategory(draft.category ?? data.category)
+                setDescription(draft.description ?? '')
+                setParams(draft.params ?? {})
+                return
+            }
+
+            setTitle(data.title ?? '')
+            setPrice(data.price != null ? String(data.price) : '')
+            setCategory(data.category)
+            setDescription(data.description ?? '')
+            const p = data.params as Record<string, unknown>
+            const filled: Record<string, string> = {}
+            Object.entries(p).forEach(([k, v]) => { filled[k] = v != null ? String(v) : '' })
+            setParams(filled)
+        }, 0)
+        return () => clearTimeout(timeoutId)
+    }, [data, draftKey])
+
+    useEffect(() => {
+        if (!id) return
+        const timeoutId = setTimeout(() => {
+            const draft: AdEditDraft = {
+                title,
+                price,
+                category,
+                description,
+                params,
+                updatedAt: Date.now(),
+            }
+            try {
+                localStorage.setItem(draftKey, JSON.stringify(draft))
+            } catch {
+                // -
+            }
+        }, 300)
+        return () => clearTimeout(timeoutId)
+    }, [id, title, price, category, description, params, draftKey])
 
     const mutation = useMutation({
         mutationFn: (body: Omit<Ad, 'id' | 'needsRevision'>) => updateAd(Number(id), body),
         onSuccess: () => {
+            setNotificationExiting(false)
+            try { localStorage.removeItem(draftKey) } catch { /* ignore */ }
             setNotification({ type: 'success', message: 'Изменения сохранены' })
             setTimeout(() => navigate(`/ads/${id}`), 1500)
         },
         onError: () => {
+            setNotificationExiting(false)
             setNotification({ type: 'error', message: 'Ошибка сохранения' })
         },
     })
@@ -140,12 +194,12 @@ export const AdEditPage = () => {
         <div className={styles.page}>
             <div className={styles.inner}>
             {notification && notification.type === 'success' && (
-                <div className={`${styles.notification} ${notificationVisible ? styles.notificationIn : styles.notificationOut}`}>
+                <div className={`${styles.notification} ${notificationExiting ? styles.notificationOut : styles.notificationIn}`}>
                     <ToastSuccess message={notification.message} />
                 </div>
             )}
             {notification && notification.type === 'error' && (
-                <div className={`${styles.notification} ${notificationVisible ? styles.notificationIn : styles.notificationOut}`}>
+                <div className={`${styles.notification} ${notificationExiting ? styles.notificationOut : styles.notificationIn}`}>
                     <ToastError title="Ошибка сохранения" message="При попытке сохранить изменения произошла ошибка. Попробуйте ещё раз или зайдите позже." />
                 </div>
             )}
