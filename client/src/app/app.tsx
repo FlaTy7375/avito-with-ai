@@ -11,7 +11,7 @@ export function App() {
     return (
         <Provider store={store}>
             <QueryClientProvider client={queryClient}>
-                <MantineProvider>
+                <MantineProvider theme={{ breakpoints: { xxs: '26.875em', xs: '36em', sm: '48em', md: '62em', lg: '80em', xl: '88em' } }}>
                     <RouterProvider router={router} />
                 </MantineProvider>
             </QueryClientProvider>

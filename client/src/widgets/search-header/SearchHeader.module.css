@@ -98,3 +98,29 @@
     border: none !important;
     border-radius: 4px !important;
 }
+
+@media (max-width: 768px) {
+    .header {
+        flex-wrap: wrap;
+        height: auto;
+        gap: 8px;
+    }
+
+    .selectWrapper {
+        width: 100%;
+    }
+
+    .layoutToggle {
+        flex-shrink: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: 8px;
+    }
+
+    .selectWrapper {
+        width: 100%;
+    }
+}

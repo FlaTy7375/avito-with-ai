@@ -28,22 +28,30 @@ export const AdsListPage = () => {
 
   return (
     <div className={styles.adsListPage}>
+      <div className={styles.inner}>
         <h1 className={styles.adsTitle}>Мои объявления</h1>
         <p className={styles.adsValue}>{isLoading ? '...' : `${data?.total} ${pluralize(data?.total ?? 0, 'объявление', 'объявления', 'объявлений')}`}</p>
         <SearchHeader />
         <div className={styles.adsListContainer}>
           <FilterSidebar />
           <div className={styles.adsWrapper}>
-            <SimpleGrid cols={{ base: 1, sm: 2, lg: cols }} style={{ opacity: isFetching ? 0.5 : 1, flex: 1 }}>
+            {filters.layout === 'list' ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, opacity: isFetching ? 0.5 : 1 }}>
                 {isLoading
                   ? <div>Загрузка...</div>
-                  : data?.items.map(ad => (
-                    <AdCard key={ad.id} {...ad} />
-                ))}
-            </SimpleGrid>
+                  : data?.items.map(ad => <AdCard key={ad.id} {...ad} />)}
+              </div>
+            ) : (
+              <SimpleGrid cols={{ base: 1, xxs: 2, md: 3, lg: cols }} style={{ opacity: isFetching ? 0.5 : 1, flex: 1 }}>
+                {isLoading
+                  ? <div>Загрузка...</div>
+                  : data?.items.map(ad => <AdCard key={ad.id} {...ad} />)}
+              </SimpleGrid>
+            )}
             <PaginationAds data={data}/>
           </div>
         </div>
+      </div>
     </div>
   )
 }

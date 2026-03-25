@@ -138,6 +138,7 @@ export const AdEditPage = () => {
 
     return (
         <div className={styles.page}>
+            <div className={styles.inner}>
             {notification && notification.type === 'success' && (
                 <div className={`${styles.notification} ${notificationVisible ? styles.notificationIn : styles.notificationOut}`}>
                     <ToastSuccess message={notification.message} />
@@ -281,6 +282,7 @@ export const AdEditPage = () => {
                         Отменить
                     </Button>
                 </div>
+            </div>
             </div>
         </div>
     )

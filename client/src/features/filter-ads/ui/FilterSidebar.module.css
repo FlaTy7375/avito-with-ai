@@ -15,12 +15,11 @@
 .filterContainer::after {
     position: absolute;
     content: '';
-    width: 224px;
+    width: calc(100% - 32px);
     height: 1px;
     background-color: rgba(240, 240, 240, 1);
-    bottom: 66px;
-    left: 50%;
-    transform: translate(-50%, 0);
+    bottom: 56px;
+    left: 16px;
 }
 
 .filterTitle {
@@ -100,3 +99,10 @@
     cursor: pointer;
 }
 
+
+@media (max-width: 768px) {
+    .filter {
+        min-width: unset;
+        width: 100%;
+    }
+}

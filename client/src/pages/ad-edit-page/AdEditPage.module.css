@@ -1,8 +1,14 @@
 .page {
-    padding: 32px;
+    padding: 0;
     background: #fff;
     min-height: 100vh;
     max-width: 100%;
+}
+
+.inner {
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 32px;
 }
 
 .title {
@@ -213,7 +219,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    width: 332px;
+    
     z-index: 10;
     border-radius: 8px;
 }
@@ -286,7 +292,6 @@
     animation: fadeOut 0.3s ease forwards;
 }
 
-/* Тосты */
 .toastSuccess {
     display: flex;
     align-items: center;
@@ -412,4 +417,87 @@
     border: 8px solid transparent;
     border-top-color: #FEE9E7;
     border-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .page {
+        padding: 16px;
+    }
+
+    .title {
+        font-size: 22px;
+    }
+
+    .field {
+        max-width: 100%;
+    }
+
+    .fieldWithAi {
+        width: 100%;
+    }
+
+    .fieldRow {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .priceAiSide {
+        margin-top: 0;
+        width: 100%;
+    }
+
+    .aiDescBtn {
+        width: 100%;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .aiRetry {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .aiResult {
+        position: static;
+        width: 100%;
+    }
+
+    .aiResult::before,
+    .aiResult::after {
+        display: none;
+    }
+
+    .aiResultError {
+        position: static;
+        width: 100%;
+    }
+
+    .aiResultError::before,
+    .aiResultError::after {
+        display: none;
+    }
+
+    .textareaWrapper {
+        max-width: 100%;
+    }
+
+    .notification {
+        width: calc(100% - 32px);
+        left: 16px;
+        right: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .page {
+        padding: 12px;
+    }
+
+    .title {
+        font-size: 18px;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
 }

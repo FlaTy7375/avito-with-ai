@@ -9,6 +9,7 @@
     flex-direction: column;
     border: 1px solid #e8e8e8;
     transition: box-shadow 0.2s;
+    min-width: 180px;
 }
 
 .grid {
@@ -144,4 +145,33 @@
 .revision::before {
     content: '●';
     font-size: 10px;
+}
+
+@media (max-width: 480px) {
+    .list {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .list .image {
+        width: 100%;
+        height: 160px;
+    }
+
+    .list .category {
+        margin-left: 12px;
+        margin-top: 12px;
+    }
+
+    .list .title {
+        margin-left: 12px;
+    }
+
+    .list .price {
+        margin-left: 12px;
+    }
+
+    .list .revision {
+        margin-left: 12px;
+    }
 }
