@@ -32,6 +32,7 @@ export const AdViewPage = () => {
 
     return (
         <div className={styles.page}>
+            <div className={styles.inner}>
             <div className={styles.header}>
                 <div>
                     <h1 className={styles.title}>{data.title}</h1>
@@ -97,6 +98,7 @@ export const AdViewPage = () => {
             <div className={styles.description}>
                 <h3 className={styles.descriptionTitle}>Описание</h3>
                 <p className={styles.descriptionText}>{data.description?.trim() || 'Отсутствует'}</p>
+            </div>
             </div>
         </div>
     )
